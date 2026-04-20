@@ -1,44 +1,36 @@
 import streamlit as st
 import google.generativeai as genai
 
-# API Key configure karein
+# API Key
 genai.configure(api_key="AIzaSyCRXlPRp_EP5UPdM3T7QMMnttBzhH_dvKg")
 
-# Website ki setting
-st.set_page_config(page_title="HEXA_TECH AI", page_icon="🌀")
-st.title("🌀 HEXA_TECH | Created by Zain")
+# Website ki Setting
+st.set_page_config(page_title="HEXA_TECH AI Ultra", page_icon="🌀")
+st.title("🌀 HEXA_TECH | Ultra Edition")
+st.subheader("Model: Gemini 1.5 Pro (Most Advanced)")
 st.markdown("---")
 
-# System instruction setup
-sys_model = genai.GenerativeModel('gemini-1.5-flash')
+# Sabse naya aur powerful model yahan hai
+model = genai.GenerativeModel('gemini-1.5-pro')
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Purani chat dikhane ke liye
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# User input box
-if prompt := st.chat_input("Zain bhai, kya hukum hai?"):
+if prompt := st.chat_input("Zain bhai, Ultra model ready hai. Kya hukum hai?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     try:
-        # AI se response mangna
         with st.chat_message("assistant"):
-            # System instruction ko prompt ke saath jod diya hai
-            full_prompt = f"System: You are HEXA_TECH, the ultimate AI built by Zain. You are loyal and smart.\nUser: {prompt}"
-            response = sys_model.generate_content(full_prompt)
-            
-            if response.text:
-                st.markdown(response.text)
-                st.session_state.messages.append({"role": "assistant", "content": response.text})
-            else:
-                st.warning("AI ne koi jawab nahi diya, phir se try karein.")
-                
+            # System instruction with High Intelligence
+            response = model.generate_content(f"You are HEXA_TECH, the most advanced AI. Created by Zain. Answer like a genius.\n\nUser: {prompt}")
+            st.markdown(response.text)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
-        st.error(f"Ek chota sa error aaya hai: {e}")
-        st.info("Zain bhai, check karo ki API key active hai ya nahi.")
+        st.error(f"Error: {e}")
+        st.info("Bhai, 1.5 Pro kabhi kabhi heavy hota hai. Agar error aaye toh refresh karna.")
